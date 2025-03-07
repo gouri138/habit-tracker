@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register & Login</title>
+    <style>
+        /* form {
+            width: 300px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            height: 30px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            height: 40px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .tab-content {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .tab-button {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+        .tab-button.active {
+            background-color: #007bff;
+            color: white;
+        } */
+        body {
+        font-family: 'Pacifico', cursive; /* Pretty cursive font */
+        margin: 0;
+        padding: 0;
+        background-color: #c783e9; /* Light pink background */
+        /* background-image: url(d.jpg);
+        background-repeat: no-repeat;
+        background-size: cover; */
+    }
+
+    form {
+        width: 300px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        background-color: #fff; /* White background for form */
+        background-image: url(fondo.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        color: #7a288a; /* Deep purple text */
+        font-weight: bold;
+    }
+
+    input[type="email"], input[type="password"] {
+        width: 95%;
+        height: 30px;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f0f0f0; /* Light gray background for inputs */
+    }
+
+    button {
+        width: 100%;
+        height: 40px;
+        background-color: #ffc5c5; /* Light pink background for buttons */
+        color: #7a288a; /* Deep purple text */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: 'Great Vibes', cursive; /* Pretty cursive font for buttons */
+    }
+
+    button:hover {
+        background-color: #ffb6c1; /* Lighter pink on hover */
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .active {
+        display: block;
+    }
+
+    .tab-button {
+        margin: 10px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #ffd7e6; /* Pastel pink background for tab buttons */
+        cursor: pointer;
+    }
+
+    .tab-button.active {
+        background-color: #ffc5c5; /* Light pink background for active tab button */
+        color: #7a288a; /* Deep purple text */
+    }
+
+    #registerMessage, #loginMessage {
+        margin-top: 10px;
+        color: #7a288a; /* Deep purple text for messages */
+    }
+    </style>
+</head>
+<body>
+
+<div style="text-align: center;">
+    <button class="tab-button active" onclick="openTab('register')">Register</button>
+    <button class="tab-button" onclick="openTab('login')">Login</button>
+</div>
+
+<div style = "text-align:center">HABIT TRACKER</div>
+
+<div id="register" class="tab-content active">
+    <form id="registerForm">
+        <h2>Register</h2>
+        <label for="email">Email:</label>
+        <input type="email" id="registerEmail" required>
+        <label for="password">Password:</label>
+        <input type="password" id="registerPassword" required>
+        <button type="submit">Register</button>
+        <p id="registerMessage"></p>
+    </form>
+</div>
+
+<div id="login" class="tab-content">
+    <form id="loginForm">
+        <h2>Login</h2>
+        <label for="email">Email:</label>
+        <input type="email" id="loginEmail" required>
+        <label for="password">Password:</label>
+        <input type="password" id="loginPassword" required>
+        <button type="submit">Login</button>
+        <p id="loginMessage"></p>
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

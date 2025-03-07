@@ -1,0 +1,131 @@
+body {
+    font-family: 'Pacifico', cursive; /* Pretty cursive font */
+    margin: 0;
+    padding: 0;
+    background-color: #c783e9; /* Light pink background */
+     /* background-image: url(p2.jpg);
+        background-repeat: repeat;
+         background-size: cover; 
+     
+         */
+
+}
+
+form {
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: #fff; /* White background for form */
+    background-image: url(fondo.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #7a288a; /* Deep purple text */
+    font-weight: bold;
+}
+
+input[type="text"], textarea {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0; /* Light gray background for inputs */
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0; /* Light gray background for select */
+}
+
+button {
+    width: 100%;
+    height: 40px;
+    background-color: #ffc5c5; /* Light pink background for buttons */
+    color: #7a288a; /* Deep purple text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Great Vibes', cursive; /* Pretty cursive font for buttons */
+}
+
+button:hover {
+    background-color: #ffb6c1; /* Lighter pink on hover */
+}
+
+#message {
+    margin-top: 10px;
+    color: #7a288a; /* Deep purple text for messages */
+}
+
+#habitsList {
+    margin-top: 20px;
+}
+
+.habit {
+    background-color: #ffd7e6; /* Pastel pink background for habits */
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.completed-dates {
+    font-size: 14px;
+    color: #7a288a; /* Deep purple text for completed dates */
+    font-family: 'Lato', sans-serif; /* Clean sans-serif font */
+}
+
+.streaks {
+    font-size: 14px;
+    color: #7a288a; /* Deep purple text for streaks */
+    font-family: 'Lato', sans-serif; /* Clean sans-serif font */
+}
+
+.stats {
+    font-size: 14px;
+    color: #7a288a; /* Deep purple text for stats */
+    font-family: 'Lato', sans-serif; /* Clean sans-serif font */
+}
+
+.notes {
+    font-size: 14px;
+    color: #666; /* Dark gray text for notes */
+    font-family: 'Merriweather', serif; /* Elegant serif font for notes */
+}
+
+.moods {
+    font-size: 14px;
+    color: #666; /* Dark gray text for moods */
+    font-family: 'Merriweather', serif; /* Elegant serif font for moods */
+}
+
+.add-note-form, .add-mood-form {
+    margin-top: 10px;
+}
+
+.update-mood-button, .delete-mood-button {
+    background-color: #ffc5c5; /* Light pink background for buttons */
+    color: #7a288a; /* Deep purple text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-family: 'Great Vibes', cursive; /* Pretty cursive font for buttons */
+}
+
+.update-mood-button:hover, .delete-mood-button:hover {
+    background-color: #ffb6c1; /* Lighter pink on hover */
+}

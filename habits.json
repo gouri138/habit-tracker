@@ -1,0 +1,76 @@
+[
+  {
+    "id": 1,
+    "name": "Exercise",
+    "description": "Workout daily",
+    "frequency": "Daily",
+    "completed": [
+      "2025-03-08",
+      "2025-03-09"
+    ],
+    "moods": [
+      {
+        "date": "2004-12-05",
+        "mood": "Sad"
+      },
+      {
+        "date": "2004-12-05",
+        "mood": "Sad"
+      }
+    ],
+    "notes": [
+      {
+        "date": "2024-12-05",
+        "content": "today was good"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Reading",
+    "description": "Read books daily",
+    "frequency": "Daily",
+    "completed": [],
+    "moods": []
+  },
+  {
+    "id": 3,
+    "name": "bathing",
+    "description": "bath",
+    "frequency": "Daily",
+    "completed": []
+  },
+  {
+    "id": 4,
+    "name": "bathing",
+    "description": "bath",
+    "frequency": "Daily",
+    "completed": []
+  },
+  {
+    "id": 5,
+    "name": "reading",
+    "description": "read",
+    "frequency": "Weekly",
+    "completed": [
+      "2025-03-09"
+    ],
+    "moods": []
+  },
+  {
+    "id": 6,
+    "name": "reading",
+    "description": "read",
+    "frequency": "Daily",
+    "completed": [],
+    "moods": []
+  },
+  {
+    "id": 7,
+    "name": "reading",
+    "description": "read",
+    "frequency": "Monthly",
+    "completed": [],
+    "moods": []
+  }
+]
