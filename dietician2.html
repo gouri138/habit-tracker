@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .tab-nav {
+  display: flex;
+  border-bottom: 2px solid #ddd;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border: none;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: #4358c1;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+    </style>
+</head>
+<body>
+    <div class="tabs">
+
+
+        
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+          <button class="tab-btn active" data-target="user-chat">User Chat</button>
+          <button class="tab-btn" data-target="dietitian-panel">Dietitian Panel</button>
+        </div>
+      
+        <!-- Tab Content -->
+        <div id="user-chat" class="tab-content active">
+          <!-- User Chat Interface -->
+          <div id="chat-window"></div>
+          <textarea id="user-message"></textarea>
+          <button onclick="sendUserMessage()">Send</button>
+        </div>
+      
+        <div id="dietitian-panel" class="tab-content">
+          <!-- Dietitian Panel -->
+          <div id="pending-messages">
+            <h3>Pending Messages</h3>
+            <ul id="message-list"></ul>
+          </div>
+          <textarea id="dietitian-reply"></textarea>
+          <button onclick="sendDietitianResponse()">Send Response</button>
+        </div>
+      </div>
+      <script>
+        // Tab Switching
+const tabs = document.querySelectorAll('.tab-btn');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    // Remove active class from all
+    document.querySelectorAll('.tab-btn, .tab-content').forEach(el => {
+      el.classList.remove('active');
+    });
+    
+    // Activate clicked tab
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.target).classList.add('active');
+  });
+});
+
+// Chat Functions (Previous Implementation)
+const STORAGE_KEY = 'chatData';
+
+function sendUserMessage() {
+  const input = document.getElementById('user-message');
+  const chatData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { messages: [], pending: [] };
+  
+  const userMsg = {
+    id: Date.now(),
+    text: input.value,
+    sender: 'user',
+    timestamp: new Date().toLocaleTimeString()
+  };
+  
+  chatData.messages.push(userMsg);
+  chatData.pending.push(userMsg);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(chatData));
+  
+  input.value = '';
+  updateChatDisplay();
+  updatePendingMessages();
+}
+
+function sendDietitianResponse() {
+  const replyInput = document.getElementById('dietitian-reply');
+  const chatData = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  
+  if (chatData.pending.length === 0) return;
+
+  const originalMsg = chatData.pending.shift();
+  const dietitianMsg = {
+    id: Date.now(),
+    text: replyInput.value,
+    sender: 'dietitian',
+    replyTo: originalMsg.id,
+    timestamp: new Date().toLocaleTimeString()
+  };
+  
+  chatData.messages.push(dietitianMsg);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(chatData));
+  
+  replyInput.value = '';
+  updateChatDisplay();
+  updatePendingMessages();
+}
+
+function updateChatDisplay() {
+  const chatData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { messages: [] };
+  const chatWindow = document.getElementById('chat-window');
+  chatWindow.innerHTML = chatData.messages.map(msg => `
+    <div class="message ${msg.sender}">
+      <strong>${msg.sender === 'user' ? 'You' : 'Dietitian'}:</strong>
+      ${msg.text} <small>${msg.timestamp}</small>
+    </div>
+  `).join('');
+  chatWindow.scrollTop = chatWindow.scrollTop + 1000;
+}
+
+function updatePendingMessages() {
+  const chatData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { pending: [] };
+  const messageList = document.getElementById('message-list');
+  messageList.innerHTML = chatData.pending.map(msg => `
+    <li>
+      ${msg.text} 
+      <small>(${msg.timestamp})</small>
+    </li>
+  `).join('');
+}
+
+// Initial Load
+updateChatDisplay();
+updatePendingMessages();
+
+      </script>
+      
+</body>
+</html>

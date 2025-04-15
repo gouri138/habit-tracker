@@ -1,0 +1,884 @@
+<!-- //PREMIUM USER -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Basic container styling */
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #timer-display {
+            font-size: 2em;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .timer-controls {
+            margin: 15px 0;
+        }
+
+        .timer-controls label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .timer-controls input {
+            padding: 8px;
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #aa6198;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #c685b1;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #affirmation-display {
+            font-size: 1.5em;
+            margin: 20px 0;
+            text-align: center;
+            font-style: italic;
+            color: #555;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #b862a9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #a4548d;
+        }
+
+        #chat-window {
+            height: 300px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 5px;
+            max-width: 70%;
+        }
+
+        .user {
+            background: #e3f2fd;
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        .dietitian {
+            background: #f5f5f5;
+        }
+
+        #dietitian-interface {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        #pending-messages {
+            margin-bottom: 15px;
+        }
+
+        #message-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #message-list li {
+            background: white;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #eee;
+        }
+
+
+        /* Form styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #9f5385;
+            /* Green */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #9b5891;
+        }
+
+        /* Habit styling */
+        .habit {
+            background-color: #eeeced;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        /* Mood styling */
+        .mood {
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 4px;
+            background-color: #eee;
+        }
+
+        /* Category styling */
+        .category-select {
+            margin-bottom: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="container">
+        <h2>Daily Affirmations</h2>
+        <div id="affirmation-display">"You are capable of achieving great things!"</div>
+        <button id="new-affirmation">Get New Affirmation</button>
+    </div>
+
+
+    <div class="container">
+        <h2>Diet Chart</h2>
+        <form id="diet-chart-form">
+            <label for="meal-time">Meal Time:</label>
+            <select id="meal-time" required>
+                <option value="">Select Meal Time</option>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Snacks">Snacks</option>
+            </select>
+
+            <label for="meal-description">Meal Description:</label>
+            <textarea id="meal-description" placeholder="Enter meal details" required></textarea>
+
+            <button type="submit">Add Meal</button>
+        </form>
+
+        <div id="diet-chart-display">
+            <h3>Your Daily Diet Plan:</h3>
+            <ul id="diet-chart-list"></ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Request Consultation</h2>
+        <form id="consultation-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Your Name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Your Email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" placeholder="Describe your dietary goals" required></textarea>
+
+            <button type="submit">Request Consultation</button>
+        </form>
+        <p id="consultation-status"></p>
+    </div>
+
+
+    <div class="container">
+        <!-- User Interface -->
+        <div id="user-chat">
+            <h2>Consultation Chat</h2>
+            <div id="chat-window"></div>
+            <textarea id="user-message" placeholder="Type your message..."></textarea>
+            <button onclick="sendUserMessage()">Send</button>
+            <button onclick="clearChat()">Clear Chat</button>
+        </div>
+
+        
+        <!-- <div id="dietitian-interface" style="margin-top:50px; border-top:2px solid #ccc; padding-top:20px;">
+            <h3>Dietitian Panel</h3>
+            <div id="pending-messages">
+                <h4>Pending Messages</h4>
+                <ul id="message-list"></ul>
+            </div>
+            <textarea id="dietitian-reply" placeholder="Type response..."></textarea>
+            <button onclick="sendDietitianResponse()">Send Response</button>
+        </div> -->
+    </div>
+    <div class="container">
+        <h2>Focus Timer</h2>
+
+        <!-- Add these input fields -->
+        <div class="timer-controls">
+            <label for="focus-duration">Focus Duration (minutes):</label>
+            <input type="number" id="focus-duration" value="25" min="1">
+
+            <label for="break-duration">Break Duration (minutes):</label>
+            <input type="number" id="break-duration" value="5" min="1">
+        </div>
+
+        <div id="timer-display">25:00</div>
+        <button id="start-timer">Start Timer</button>
+        <button id="pause-timer" disabled>Pause</button>
+        <button id="reset-timer" disabled>Reset</button>
+    </div>
+
+
+    <div style="text-align: center;" class="container">
+        <h1>Habit Tracker</h1>
+        <h2>Track your habits</h2>
+    </div>
+    <div class="container">
+        <form id="habitForm">
+            <h2>Create Habit</h2>
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            <label for="description">Description:</label>
+            <textarea id="description" required></textarea>
+            <label for="frequency">Frequency:</label>
+            <select id="frequency" required>
+                <option value="">Select Frequency</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+            </select>
+            <!-- Category selection added here -->
+            <label for="category">Category:</label>
+            <select id="category" class="category-select">
+                <option value="">Select Category</option>
+                <option value="Fitness">Fitness</option>
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Other">Other</option>
+            </select>
+            <button type="submit">Create Habit</button>
+            <p id="message"></p>
+        </form>
+
+
+
+        <div id="habitsList">
+            <h2>Your Habits:</h2>
+            <div id="habitsContainer"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        emailjs.init('01wRrE0P7Eok4sFMI');
+
+        document.getElementById('consultation-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            emailjs.send('service_9m8coyq', 'template_2j3t0in', {
+                name,
+                email,
+                message
+            }).then(() => {
+                document.getElementById('consultation-status').textContent =
+                    "Request sent! A dietitian will contact you shortly.";
+                document.getElementById('consultation-form').reset();
+            }).catch((error) => {
+                console.error("Error sending email:", error);
+                document.getElementById('consultation-status').textContent =
+                    "Failed to send request. Please try again.";
+            });
+        });
+    </script>
+
+    <script>
+        const STORAGE_KEY = 'chatData';
+        document.getElementById('habitForm').addEventListener('submit', createHabit);
+
+        function fetchAndDisplayHabits() {
+            fetch('http://localhost:5000/api/habits')
+                .then(response => response.json())
+                .then(data => {
+                    const habitsContainer = document.getElementById('habitsContainer');
+                    habitsContainer.innerHTML = '';
+
+                    data.forEach(habit => {
+                        Promise.all([fetchStreaks(habit.id), fetchStats(habit.id), fetchNotes(habit.id), fetchMoods(habit.id)])
+                            .then(([streaks, stats, notes, moods]) => {
+                                const habitHTML = `
+                                <div class="habit">
+                                    <h3>${habit.name}</h3>
+                                    <p>Description: ${habit.description}</p>
+                                    <p>Frequency: ${habit.frequency}</p>
+                                    <p>Category: ${habit.category || 'Uncategorized'}</p>
+                                    <p class="completed-dates">Completed on: ${habit.completed.join(', ')}</p>
+                                    <p class="streaks">Current Streak: ${streaks.currentStreak} days, Max Streak: ${streaks.maxStreak} days</p>
+                                    <p class="stats">Total Completions: ${stats.totalCompletions}, Completion Rate: ${stats.completionRate.toFixed(2)}%</p>
+                                    <div class="notes">
+                                        <h4>Notes:</h4>
+                                        ${notes.map(note => `<p>${note.date}: ${note.content}</p>`).join('')}
+                                        <form class="add-note-form" data-habit-id="${habit.id}">
+                                            <label for="note-date">Date:</label>
+                                            <input type="date" id="note-date" required>
+                                            <label for="note-content">Content:</label>
+                                            <textarea id="note-content" required></textarea>
+                                            <button type="submit">Add Note</button>
+                                        </form>
+                                    </div>
+                                    <div class="moods">
+                                        <h4>Moods:</h4>
+                                        ${moods.map((mood, index) => `<p class="mood">${mood.date}: ${mood.mood}</p>
+                                            <button class="update-mood-button" data-habit-id="${habit.id}" data-index="${index}">Update</button>
+                                            <button class="delete-mood-button" data-habit-id="${habit.id}" data-index="${index}">Delete</button>`).join('')}
+                                        <form class="add-mood-form" data-habit-id="${habit.id}">
+                                            <label for="mood-date">Date:</label>
+                                            <input type="date" id="mood-date" required>
+                                            <label for="mood">Mood:</label>
+                                            <select id="mood" required>
+                                                <option value="">Select Mood</option>
+                                                <option value="Happy">Happy</option>
+                                                <option value="Sad">Sad</option>
+                                                <option value="Neutral">Neutral</option>
+                                            </select>
+                                            <button type="submit">Add Mood</button>
+                                        </form>
+                                    </div>
+                                    <button class="complete-button" data-habit-id="${habit.id}">Mark as Completed</button>
+                                    <button class="delete-button" data-habit-id="${habit.id}">Delete</button>
+                                </div>
+                            `;
+                                habitsContainer.insertAdjacentHTML('beforeend', habitHTML);
+                            }).then(() => {
+                                const completeButtons = document.querySelectorAll('.complete-button');
+                                completeButtons.forEach(button => {
+                                    button.addEventListener('click', markHabitAsCompleted);
+                                });
+
+                                const deleteButtons = document.querySelectorAll('.delete-button');
+                                deleteButtons.forEach(button => {
+                                    button.addEventListener('click', deleteHabit);
+                                });
+
+                                const addNoteForms = document.querySelectorAll('.add-note-form');
+                                addNoteForms.forEach(form => {
+                                    form.addEventListener('submit', addNote);
+                                });
+
+                                const addMoodForms = document.querySelectorAll('.add-mood-form');
+                                addMoodForms.forEach(form => {
+                                    form.addEventListener('submit', addMood);
+                                });
+
+                                const updateMoodButtons = document.querySelectorAll('.update-mood-button');
+                                updateMoodButtons.forEach(button => {
+                                    button.addEventListener('click', updateMood);
+                                });
+
+                                const deleteMoodButtons = document.querySelectorAll('.delete-mood-button');
+                                deleteMoodButtons.forEach(button => {
+                                    button.addEventListener('click', deleteMood);
+                                });
+                            });
+                    });
+                });
+        }
+        fetchAndDisplayHabits()
+        // Function to create a habit
+        async function createHabit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const description = document.getElementById('description').value;
+            const frequency = document.getElementById('frequency').value;
+            const category = document.getElementById('category').value; // Get the selected category
+
+            try {
+                const response = await fetch('http://localhost:5000/api/habits', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        description,
+                        frequency,
+                        category
+                    }) // Include the category in the request body
+                });
+
+                if (response.ok) {
+                    document.getElementById('message').textContent = 'Habit created successfully!';
+                    document.getElementById('habitForm').reset();
+                    fetchAndDisplayHabits();
+                } else {
+                    document.getElementById('message').textContent = 'Failed to create habit.';
+                }
+            } catch (error) {
+                console.error('Error creating habit:', error);
+                document.getElementById('message').textContent = 'An error occurred.';
+            }
+        }
+
+        // Function to mark a habit as completed
+        async function markHabitAsCompleted(event) {
+            const habitId = event.target.dataset.habitId;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/habits/${habitId}/complete`, {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    fetchAndDisplayHabits();
+                } else {
+                    console.error('Failed to mark habit as completed.');
+                }
+            } catch (error) {
+                console.error('Error marking habit as completed:', error);
+            }
+        }
+        // Function to delete a habit
+        async function deleteHabit(event) {
+            const habitId = event.target.dataset.habitId;
+            try {
+                const response = await fetch(`http://localhost:5000/api/habits/${habitId}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    fetchAndDisplayHabits(); // Refresh habits after deletion
+                } else {
+                    console.error('Failed to delete habit.');
+                }
+            } catch (error) {
+                console.error('Error deleting habit:', error);
+            }
+        }
+
+        async function addNote(event) {
+            event.preventDefault();
+            const habitId = event.target.dataset.habitId;
+            const noteDate = event.target.querySelector('#note-date').value;
+            const noteContent = event.target.querySelector('#note-content').value;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/habits/${habitId}/notes`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        date: noteDate,
+                        content: noteContent
+                    })
+                });
+
+                if (response.ok) {
+                    fetchAndDisplayHabits(); // Refresh habits after adding note
+                } else {
+                    console.error('Failed to add note.');
+                }
+            } catch (error) {
+                console.error('Error adding note:', error);
+            }
+        }
+
+        async function addMood(event) {
+            event.preventDefault();
+            const habitId = event.target.dataset.habitId;
+            const moodDate = event.target.querySelector('#mood-date').value;
+            const mood = event.target.querySelector('#mood').value;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/habits/${habitId}/moods`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        date: moodDate,
+                        mood: mood
+                    })
+                });
+
+                if (response.ok) {
+                    fetchAndDisplayHabits();
+                } else {
+                    console.error('Failed to add mood.');
+                }
+            } catch (error) {
+                console.error('Error adding mood:', error);
+            }
+        }
+
+        async function updateMood(event) {
+            const habitId = event.target.dataset.habitId;
+            const moodIndex = event.target.dataset.index;
+            const newMood = prompt("Enter the new mood:"); // Prompt for the new mood
+            if (newMood === null || newMood === "") {
+                return; // If the user cancels or enters an empty string, exit the function
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/habits/${habitId}/moods/${moodIndex}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        mood: newMood
+                    }) // Send the new mood in the body
+                });
+
+                if (response.ok) {
+                    fetchAndDisplayHabits(); // Refresh habits after updating mood
+                } else {
+                    console.error('Failed to update mood.');
+                }
+            } catch (error) {
+                console.error('Error updating mood:', error);
+            }
+        }
+
+        async function deleteMood(event) {
+            const habitId = event.target.dataset.habitId;
+            const moodIndex = event.target.dataset.index;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/habits/${habitId}/moods/${moodIndex}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    fetchAndDisplayHabits(); // Refresh habits after deleting mood
+                } else {
+                    console.error('Failed to delete mood.');
+                }
+            } catch (error) {
+                console.error('Error deleting mood:', error);
+            }
+        }
+        // Function to fetch streaks
+        async function fetchStreaks(habitId) {
+            try {
+                const response = await fetch(`http://localhost:5000/api/habits/${habitId}/streaks`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch streaks');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching streaks:', error);
+                return {
+                    currentStreak: 0,
+                    maxStreak: 0
+                };
+            }
+        }
+
+        // Function to fetch stats
+        async function fetchStats(habitId) {
+            try {
+                const response = await fetch(`http://localhost:5000/api/habits/${habitId}/stats`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch stats');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+                return {
+                    totalCompletions: 0,
+                    completionRate: 0
+                };
+            }
+        }
+
+        // Function to fetch notes
+        async function fetchNotes(habitId) {
+            try {
+                const response = await fetch(`http://localhost:5000/api/habits/${habitId}/notes`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch notes');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching notes:', error);
+                return [];
+            }
+        }
+
+        // Function to fetch moods
+        async function fetchMoods(habitId) {
+            try {
+                const response = await fetch(`http://localhost:5000/api/habits/${habitId}/moods`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch moods');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching moods:', error);
+                return [];
+            }
+        }
+    </script>
+    <script>
+        // Affirmation
+        const affirmations = [
+            "You are capable of amazing things.",
+            "Every day is a new opportunity.",
+            "Believe in yourself, you are stronger than you think.",
+            "Your potential is limitless.",
+            "You deserve happiness and success."
+        ];
+
+        const affirmationDisplay = document.getElementById('affirmation-display');
+        const newAffirmationButton = document.getElementById('new-affirmation');
+
+        function updateAffirmation() {
+            const randomIndex = Math.floor(Math.random() * affirmations.length);
+            affirmationDisplay.textContent = affirmations[randomIndex];
+        }
+
+        newAffirmationButton.addEventListener('click', updateAffirmation);
+        updateAffirmation(); // Initial affirmation display
+
+        // Focus Timer
+        let focusDuration = 25 * 60; // 25 minutes
+        let breakDuration = 5 * 60; // 5 minutes
+        let timer = focusDuration;
+        let isFocus = true;
+        let isRunning = false;
+        let timerInterval;
+
+        const focusDurationInput = document.getElementById('focus-duration');
+        const breakDurationInput = document.getElementById('break-duration');
+        const timerDisplay = document.getElementById('timer-display');
+        const startButton = document.getElementById('start-timer');
+        const pauseButton = document.getElementById('pause-timer');
+        const resetButton = document.getElementById('reset-timer');
+
+        function updateDisplay() {
+            let minutes = Math.floor(timer / 60);
+            let seconds = timer % 60;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerDisplay.textContent = `${minutes}:${seconds}`;
+        }
+
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                startButton.disabled = true;
+                pauseButton.disabled = false;
+                resetButton.disabled = false;
+                timerInterval = setInterval(function() {
+                    timer--;
+                    updateDisplay();
+                    if (timer < 0) {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        startButton.disabled = false;
+                        pauseButton.disabled = true;
+                        resetButton.disabled = true;
+                        if (isFocus) {
+                            isFocus = false;
+                            timer = breakDuration;
+                            alert("Break time!");
+                        } else {
+                            isFocus = true;
+                            timer = focusDuration;
+                            alert("Focus time!");
+                        }
+                        updateDisplay();
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            if (isRunning) {
+                isRunning = false;
+                clearInterval(timerInterval);
+                startButton.disabled = false;
+                pauseButton.disabled = true;
+            }
+        }
+
+        function resetTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            startButton.disabled = false;
+            pauseButton.disabled = true;
+            resetButton.disabled = true;
+            isFocus = true;
+            focusDuration = parseInt(focusDurationInput.value) * 60;
+            breakDuration = parseInt(breakDurationInput.value) * 60;
+            timer = focusDuration;
+            updateDisplay();
+        }
+
+        startButton.addEventListener('click', startTimer);
+        pauseButton.addEventListener('click', pauseTimer);
+        resetButton.addEventListener('click', resetTimer);
+        focusDurationInput.addEventListener('change', () => {
+            focusDuration = parseInt(focusDurationInput.value) * 60;
+            if (!isRunning) {
+                timer = focusDuration;
+                updateDisplay();
+            }
+        });
+        breakDurationInput.addEventListener('change', () => {
+            breakDuration = parseInt(breakDurationInput.value) * 60;
+        });
+        updateDisplay(); // Initial display
+
+        // Diet chart
+        document.getElementById('diet-chart-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const mealTime = document.getElementById('meal-time').value;
+            const mealDescription = document.getElementById('meal-description').value;
+
+            if (mealTime && mealDescription) {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${mealTime}: ${mealDescription}`;
+                document.getElementById('diet-chart-list').appendChild(listItem);
+
+                document.getElementById('meal-time').value = '';
+                document.getElementById('meal-description').value = '';
+            } else {
+                alert('Please select meal time and enter meal description.');
+            }
+        });
+       
+function sendUserMessage() {
+        const input = document.getElementById('user-message');
+        const chatData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { messages: [], pending: [] };
+        
+        if (!input.value.trim()) return;
+
+        const userMsg = {
+            id: Date.now(),
+            text: input.value,
+            sender: 'user',
+            timestamp: new Date().toLocaleTimeString()
+        };
+        
+        chatData.messages.push(userMsg);
+        chatData.pending.push(userMsg);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(chatData));
+        
+        input.value = '';
+        updateChatDisplay();
+    }
+
+    function updateChatDisplay() {
+        const chatData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { messages: [] };
+        const chatWindow = document.getElementById('chat-window');
+        
+        chatWindow.innerHTML = chatData.messages.map(msg => `
+            <div class="message ${msg.sender}">
+                <strong>${msg.sender === 'user' ? 'You' : 'Dietitian'}:</strong>
+                ${msg.text}
+                <small>${msg.timestamp}</small>
+            </div>
+        `).join('');
+        
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    // Auto-refresh every 2 seconds
+    setInterval(updateChatDisplay, 2000);
+    document.addEventListener('DOMContentLoaded', updateChatDisplay);
+
+
+
+
+    function clearChat() {
+    // Remove chat data from local storage
+    localStorage.removeItem(STORAGE_KEY);
+
+    // Clear the chat display
+    const chatWindow = document.getElementById('chat-window');
+    chatWindow.innerHTML = '';
+
+    // Optional: Clear pending messages (if applicable)
+    const messageList = document.getElementById('message-list');
+    if (messageList) {
+        messageList.innerHTML = '';
+    }
+
+    alert('Chat has been cleared!');
+}
+
+            
+    </script>
+</body>
+
+</html>
